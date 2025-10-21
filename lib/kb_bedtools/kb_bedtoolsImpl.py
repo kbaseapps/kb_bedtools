@@ -7,7 +7,6 @@ import subprocess
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.ReadsUtilsClient import ReadsUtils
-from base import Core
 
 from kb_bedtools.utils import Intersection
 from kb_bedtools.utils import BamConversion
@@ -49,7 +48,6 @@ class kb_bedtools:
         #END_CONSTRUCTOR
         pass
 
-
     def run_kb_bedtools(self, ctx, params):
         version = subprocess.check_output(["bedtools", "--version"])
         print("BEDTOOLS VERSION IN CONTAINER:", version.decode())
@@ -76,8 +74,6 @@ class kb_bedtools:
         bam = BamConversion(ctx, config=config, app_config=self.config)
         output = bam.do_analysis(params)
 
-        output = bam.do_analysis(params)
-
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
             raise ValueError('Method run_kb_bedtools return value ' +
@@ -85,6 +81,7 @@ class kb_bedtools:
         # return the results
         return [output]
         #END run_kb_bedtools
+
     def run_kb_bedtools_intersect(self, ctx, params):
         """
         App which takes GFF files and do the intersection command
@@ -103,7 +100,7 @@ class kb_bedtools:
                 ReadsUtils=ReadsUtils
             ),
         )
-        
+
         intersect = Intersection(ctx, config=config)
         output = intersect.do_analysis(params)
         #END run_kb_bedtools_intersect
@@ -114,6 +111,7 @@ class kb_bedtools:
                              'output is not type dict as required.')
         # return the results
         return [output]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
